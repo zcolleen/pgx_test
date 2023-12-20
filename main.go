@@ -132,7 +132,7 @@ func main() {
 	failed := &atomic.Uint64{}
 	metrics(total, failed, deadlineFailures)
 
-	w := NewWorkerPool(ctx, 1)
+	w := NewWorkerPool(ctx, 11)
 
 	f := func() {
 		defer total.Add(1)
