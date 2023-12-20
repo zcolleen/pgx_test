@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpassword
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST_AUTH_METHOD=md5
+      - POSTGRES_INITDB_ARGS=--auth=md5
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+      - ./initdb.d:/docker-entrypoint-initdb.d
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    environment:
+      - MAX_DB_CONNECTIONS=99
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=dbuser
+      - DB_PASSWORD=dbpassword
+      - ADMIN_USERS=postgres,admin
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
