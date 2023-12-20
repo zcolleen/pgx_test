@@ -137,7 +137,7 @@ func main() {
 	f := func() {
 		defer total.Add(1)
 
-		c, cancel := context.WithTimeout(ctx, time.Second*1)
+		c, cancel := context.WithTimeout(ctx, time.Millisecond*20)
 		defer cancel()
 
 		err = exec(c, pool)
