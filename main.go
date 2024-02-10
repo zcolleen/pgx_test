@@ -24,9 +24,8 @@ func someLongMathOperationOrSomeLongExternalCall() {
 // and no operation after deadline makes sense
 func (h *handler) someHttpOrGrpcHandler(ctx context.Context) error {
 	rows, err := h.pool.Query(ctx, "select some_column from some_table")
-	// no error here
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer rows.Close()
 
@@ -43,7 +42,7 @@ func (h *handler) someHttpOrGrpcHandler(ctx context.Context) error {
 		return err
 	}
 
-	// if context is done here, error from pgx is not returned
+	// if context is already done here, error from pgx is not returned
 	// so we have to check context manually
 	if err := ctx.Err(); err != nil {
 		return err
